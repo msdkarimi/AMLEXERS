@@ -1,5 +1,7 @@
 from torchvision.datasets import VisionDataset
-
+import loadImage
+import math
+import copy
 from PIL import Image
 
 import os
@@ -17,9 +19,16 @@ def pil_loader(path):
 class Caltech(VisionDataset):
     def __init__(self, root, split='train', transform=None, target_transform=None):
         super(Caltech, self).__init__(root, transform=transform, target_transform=target_transform)
-
+        self.backGround = "BACKGROUND_Google"
+        self.root = root
         self.split = split # This defines the split you are going to use
                            # (split files are called 'train.txt' and 'test.txt')
+        self.hashOfLabels = dict()
+        self.labelPluseCounter = dict()
+        self.labelCounterForTrain = dict()
+        self.labelCounterForValidation = dict()
+        self.grandListOfAllImages = list()
+
 
         '''
         - Here you should implement the logic for reading the splits files and accessing elements
@@ -29,6 +38,44 @@ class Caltech(VisionDataset):
           through the index
         - Labels should start from 0, so for Caltech you will have lables 0...100 (excluding the background class) 
         '''
+
+    def getTrainChunk(self):
+        listOfLabes = list()
+        setOfLabels = set()
+
+        with open(self.split+".txt") as testFile:
+            for aline in testFile:
+                label = str(aline.split("/")[0])
+                listOfLabes.append(label)
+                if label != self.backGround:
+                    setOfLabels.add(label)
+        setOfSortedLabels = sorted(setOfLabels)
+        labelCounter = 0
+
+        for aLabel in setOfSortedLabels:
+            self.hashOfLabels[aLabel] = labelCounter
+            labelCounter += 1
+
+        self.labelPluseCounter = copy.deepcopy(self.hashOfLabels)
+
+        for key, value in self.hashOfLabels.items():
+            self.labelPluseCounter[key] = listOfLabes.count(key)
+
+        for key, value in self.labelPluseCounter.items():
+            self.labelCounterForTrain[key] = math.ceil(value / 2)
+            self.labelCounterForValidation[key] = self.labelPluseCounter[key] - self.labelCounterForTrain[key]
+
+        for key, value in self.labelCounterForTrain.items():
+            with open(self.split+".txt") as testFile:
+                for aline in testFile:
+                    label = str(aline.split("/")[0])
+                    if label != key:
+                        continue
+                    else:
+                        for image in range(value):
+                            trimmedPath = aline.strip()
+                            newObjOfpathAndLabel = loadImage.LoadImage( self.root, self.hashOfLabels[key], trimmedPath)
+                            self.grandListOfAllImages.append(newObjOfpathAndLabel)
 
     def __getitem__(self, index):
         '''
