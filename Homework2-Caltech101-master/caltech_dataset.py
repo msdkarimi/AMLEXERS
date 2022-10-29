@@ -9,11 +9,28 @@ import os.path
 import sys
 
 
-def pil_loader(path):
-    # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
-    with open(path, 'rb') as f:
-        img = Image.open(f)
-        return img.convert('RGB')
+# def pil_loader(path):
+#     # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
+#     with open(path, 'rb') as f:
+#         img = Image.open(f)
+#         return img.convert('RGB')
+
+class LoadImage:
+
+
+    def __init__(self, root,label, imagePath):
+        self.label = label
+        self.imagePath = root+imagePath
+        self.imageTypePIL = self.pil_loader(self.imagePath )
+
+    def __repr__(self):
+        return f'label= {self.label}'
+
+    def pil_loader(self, path):
+        # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
+        with open(path, 'rb') as f:
+            img = Image.open(f)
+            return img.convert('RGB')
 
 class Caltech(VisionDataset):
     def __init__(self, root, split='train', transform=None, target_transform=None):
@@ -91,7 +108,7 @@ class Caltech(VisionDataset):
                 label = str(aline.split("/")[0])
                 if label == key:
                     imagDir = aline.strip()
-                    self.grandListOfAllImages.append(loadImage.LoadImage(self.root, self.hashOfLabels[label], imagDir))
+                    self.grandListOfAllImages.append(LoadImage(self.root, self.hashOfLabels[label], imagDir))
         if self.split == "train":
             trainImageAddress = set(self.getTrainChunk())
             validationImageAddress = self.setFulladdress - trainImageAddress
