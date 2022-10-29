@@ -24,7 +24,7 @@ class LoadImage:
         self.imageTypePIL = self.pil_loader(self.imagePath )
 
     def __repr__(self):
-        return f'label= {self.label}'
+        return f'label= {self.label} and image = {self.imageTypePIL}'
 
     def pil_loader(self, path):
         # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
