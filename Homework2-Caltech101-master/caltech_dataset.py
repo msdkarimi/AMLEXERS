@@ -112,7 +112,7 @@ class Caltech(VisionDataset):
                     self.grandListOfAllImages.append(LoadImage(self.root, self.hashOfLabels[label], imagDir))
         if self.split == "train":
             self.tch = self.getTrainChunk()
-            trainImageAddress = set(tch)
+            trainImageAddress = set(self.tch)
             validationImageAddress = self.setFulladdress - trainImageAddress
 
             for i in range(len(self.grandListOfAllImages)):
