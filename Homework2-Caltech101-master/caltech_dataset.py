@@ -1,5 +1,5 @@
 from torchvision.datasets import VisionDataset
-import Caltech101.loadImage
+# import Caltech101.loadImage
 import math
 import copy
 from PIL import Image
