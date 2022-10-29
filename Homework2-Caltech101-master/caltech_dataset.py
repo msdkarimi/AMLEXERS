@@ -116,6 +116,8 @@ class Caltech(VisionDataset):
             validationImageAddress = self.setFulladdress - trainImageAddress
 
             for i in range(len(self.grandListOfAllImages)):
+                address = self.grandListOfAllImages[i].imagePath.split("/")
+                rawAddress = address[2]+"/"+address[3]
                 if self.grandListOfAllImages[i].imagePath in trainImageAddress:
                     self.setOfTrainIndices.append(i)
                 else:
