@@ -74,7 +74,7 @@ class Caltech(VisionDataset):
                     self.trainData.append(aline.strip())
                     counter += 1
 
-        # return trainData
+        return self.trainData
 
 
     def readTrainFile(self):
