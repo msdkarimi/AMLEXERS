@@ -26,9 +26,8 @@ class Caltech(VisionDataset):
         self.trainData = list()
         self.hashOfLabels = dict()
         self.grandListOfAllImages = list()
-        self.setOfTrainIndices = set()
-        self.setOfTrainIndices = set()
-        self.setOfValidationIndices = set()
+        self.setOfTrainIndices = list()
+        self.setOfValidationIndices = list()
         self.readTrainFile()
 
 
