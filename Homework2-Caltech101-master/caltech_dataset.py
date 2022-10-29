@@ -1,5 +1,5 @@
 from torchvision.datasets import VisionDataset
-import loadImage
+import Caltech101.loadImage
 import math
 import copy
 from PIL import Image
@@ -66,7 +66,7 @@ class Caltech(VisionDataset):
         backGround = "BACKGROUND_Google"
         setOfLabels = set()
 
-        with open(self.split + ".txt") as testFile:
+        with open("Caltech101/"+self.split + ".txt") as testFile:
             for aline in testFile:
 
                 label = str(aline.split("/")[0])
