@@ -4,8 +4,8 @@ class LoadImage:
 
     def __init__(self, root,label, imagePath):
         self.label = label
-        # self.imagePath = root+imagePath
-        self.typePIL = self.pil_loader( root + imagePath )
+        self.imagePath = root+imagePath
+        self.imageTypePIL = self.pil_loader(self.imagePath )
 
     def __repr__(self):
         return f'label= {self.label}'
