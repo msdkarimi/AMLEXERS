@@ -20,7 +20,7 @@ class LoadImage:
 
     def __init__(self, root,label, imagePath):
         self.label = label
-        self.imagePath = root+imagePath
+        self.imagePath = root+"/"+imagePath
         self.imageTypePIL = self.pil_loader(self.imagePath )
 
     def __repr__(self):
